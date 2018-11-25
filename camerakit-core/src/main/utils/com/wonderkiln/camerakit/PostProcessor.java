@@ -49,7 +49,7 @@ public class PostProcessor {
         if (cropAspectRatio != null) {
             int cropWidth = width;
             int cropHeight = height;
-            if (exifPostProcessor.areDimensionsFlipped()) {
+            if (width < height) {
                 cropWidth = height;
                 cropHeight = width;
             }
@@ -63,11 +63,12 @@ public class PostProcessor {
 
     private static class ExifPostProcessor {
 
-        private int orientation = ExifInterface.ORIENTATION_UNDEFINED;
+        private int orientation = ExifInterface.ORIENTATION_NORMAL;
 
         public ExifPostProcessor(byte[] picture) {
             try {
                 orientation = getExifOrientation(new ByteArrayInputStream(picture));
+                Log.e("-------", orientation + "");
             } catch (IOException e) {
                 e.printStackTrace();
             }
